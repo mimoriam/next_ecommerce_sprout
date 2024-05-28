@@ -10,3 +10,7 @@ npx drizzle-kit migrate
 
 npx shadcn-ui@latest init
 npx shadcn-ui@latest add button
+npx shadcn-ui@latest add avatar
+npx shadcn-ui@latest add card
+npx shadcn-ui@latest add form
+npx shadcn-ui@latest add label
