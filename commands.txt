@@ -1,1 +1,3 @@
 npm i -D prettier eslint-config-standard eslint-plugin-tailwindcss eslint-config-prettier eslint-plugin-prettier prettier-plugin-tailwindcss
+
+npm install --force next@rc react@rc react-dom@rc
