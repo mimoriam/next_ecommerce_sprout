@@ -1,12 +1,23 @@
-export default function Home() {
-  const dateString = Date().toLocaleString();
-  const [day, month, date, year, time] = dateString.split(" ");
+import getPosts from "@/server/actions/get-posts";
 
-  return (
-    <>
-      <main>
-        {date}/{month}/{year} - {time}
-      </main>
-    </>
-  );
+export default async function Home() {
+  const { error, success } = await getPosts();
+
+  if (error) {
+    throw new Error(error);
+  }
+
+  if (success) {
+    return (
+      <>
+        <main>
+          {success.map((post) => (
+            <div key={post.id}>
+              <h2>{post.title}</h2>
+            </div>
+          ))}
+        </main>
+      </>
+    );
+  }
 }
