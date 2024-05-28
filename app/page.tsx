@@ -1,5 +1,6 @@
 import getPosts from "@/server/actions/get-posts";
 import createPost from "@/server/actions/create-post";
+import CreatePostButton from "@/components/CreatePostButton";
 
 export default async function Home() {
   const { error, success } = await getPosts();
@@ -27,7 +28,7 @@ export default async function Home() {
               name="title"
               placeholder="Title"
             />
-            <button type="submit">Submit</button>
+            <CreatePostButton />
           </form>
         </main>
       </>
