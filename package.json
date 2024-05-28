@@ -12,11 +12,17 @@
   },
   "dependencies": {
     "@neondatabase/serverless": "^0.9.3",
+    "@radix-ui/react-slot": "^1.0.2",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.30.10",
+    "lucide-react": "^0.379.0",
     "next": "^15.0.0-rc.0",
     "react": "^19.0.0-rc-6f23540c7d-20240528",
-    "react-dom": "^19.0.0-rc-6f23540c7d-20240528"
+    "react-dom": "^19.0.0-rc-6f23540c7d-20240528",
+    "tailwind-merge": "^2.3.0",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@types/node": "^20",

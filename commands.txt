@@ -7,3 +7,6 @@ npm i -D drizzle-kit
 
 npx drizzle-kit generate
 npx drizzle-kit migrate
+
+npx shadcn-ui@latest init
+npx shadcn-ui@latest add button
