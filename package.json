@@ -11,6 +11,7 @@
     "db:push": "drizzle-kit push --config drizzle.config.ts"
   },
   "dependencies": {
+    "@auth/drizzle-adapter": "^1.1.0",
     "@hookform/resolvers": "^3.4.2",
     "@neondatabase/serverless": "^0.9.3",
     "@radix-ui/react-avatar": "^1.0.4",
@@ -22,6 +23,7 @@
     "drizzle-orm": "^0.30.10",
     "lucide-react": "^0.379.0",
     "next": "^15.0.0-rc.0",
+    "next-auth": "^5.0.0-beta.18",
     "react": "^19.0.0-rc-6f23540c7d-20240528",
     "react-dom": "^19.0.0-rc-6f23540c7d-20240528",
     "react-hook-form": "^7.51.5",
