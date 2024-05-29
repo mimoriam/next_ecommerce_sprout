@@ -8,9 +8,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   session: { strategy: "jwt" },
   callbacks: {
     // @ts-ignore
-    async session({ token, session }) {},
-    // @ts-ignore
-    async jwt({ token }) {},
+    async session({ token, session }) {
+      return session;
+    },
+    // // @ts-ignore
+    async jwt({ token }) {
+      return token;
+    },
+
+    async redirect({ url, baseUrl }) {
+      // Redirect to home after login
+      return baseUrl;
+    },
   },
   events: {
     createUser: async ({ user }) => {},
