@@ -16,10 +16,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return token;
     },
 
-    async redirect({ url, baseUrl }) {
-      // Redirect to home after login
-      return baseUrl;
-    },
+    // async redirect({ url, baseUrl }) {
+    //   // Redirect to home after login
+    //   return baseUrl;
+    // },
   },
   events: {
     createUser: async ({ user }) => {},
