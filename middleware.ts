@@ -4,7 +4,7 @@ import authConfig from "@/auth.config";
 
 const { auth } = NextAuth(authConfig);
 
-export const authRoutes = [];
+export const authRoutes = ["/auth/login"];
 export const publicRoutes = ["/"];
 export const apiAuthPrefix = "/api/auth";
 
@@ -25,11 +25,9 @@ export default auth((req) => {
 
   if (isAuthRoute) {
     if (isLoggedIn) {
-      return NextResponse.next();
-    }
-    if (!isLoggedIn) {
       return Response.redirect(new URL("/", nextUrl));
     }
+    return NextResponse.next();
   }
 
   if (!isLoggedIn && !isPublicRoute) {
@@ -40,5 +38,5 @@ export default auth((req) => {
 });
 
 export const config = {
-  matcher: [], // Add authRoutes here
+  matcher: ["/auth/login"], // Add authRoutes here
 };
