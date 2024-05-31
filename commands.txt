@@ -21,3 +21,4 @@ npm i @auth/drizzle-adapter
 npm i next-safe-action
 npm i bcryptjs
 npm i -D @types/bcryptjs
+npm i @paralleldrive/cuid2
