@@ -19,6 +19,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { emailSignIn } from "@/server/actions/EmailSignInAction";
+import { useAction } from "next-safe-action/hooks";
 
 export const LoginForm = () => {
   const form = useForm({
@@ -29,8 +31,15 @@ export const LoginForm = () => {
     },
   });
 
+  // Hook from NextSafeAction
+  const { execute, status } = useAction(emailSignIn, {
+    onSuccess(data) {
+      console.log(data);
+    },
+  });
+
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
-    console.log(values);
+    execute(values);
   };
 
   return (
