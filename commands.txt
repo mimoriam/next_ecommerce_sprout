@@ -19,3 +19,5 @@ npx shadcn-ui@latest add input
 npm i next-auth@beta
 npm i @auth/drizzle-adapter
 npm i next-safe-action
+npm i bcryptjs
+npm i -D @types/bcryptjs

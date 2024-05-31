@@ -1,8 +1,9 @@
 import { createSafeActionClient } from "next-safe-action";
 import { RegisterSchema } from "@/types/RegisterSchema";
-import { db } from "@/server";
 import { eq } from "drizzle-orm";
 import { users } from "@/server/schema";
+import bcrpyt from "bcryptjs";
+import { db } from "@/server";
 
 const action = createSafeActionClient();
 
@@ -20,10 +21,10 @@ export const emailRegister = action(
     }
 
     // Logic for when the user is not registered
-    await db.insert(users).values({
-      email,
-      name,
-    });
+    // await db.insert(users).values({
+    //   email,
+    //   name,
+    // });
 
     return { success: "Confirmation Email Sent!" };
   },
