@@ -1,7 +1,7 @@
 "use client";
 
 import { AuthCard } from "@/components/auth/AuthCard";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginSchema } from "@/types/LoginSchema";
@@ -30,6 +30,8 @@ export const LoginForm = () => {
       password: "",
     },
   });
+
+  const [error, setError] = useState("");
 
   // Hook from NextSafeAction
   const { execute, status } = useAction(emailSignIn, {
