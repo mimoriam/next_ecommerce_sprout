@@ -4,6 +4,7 @@ import { eq } from "drizzle-orm";
 import { users } from "@/server/schema";
 import bcrpyt from "bcryptjs";
 import { db } from "@/server";
+import { generateEmailVerificationToken } from "@/server/actions/VerificationTokenAction";
 
 const action = createSafeActionClient();
 
@@ -17,14 +18,24 @@ export const emailRegister = action(
     });
 
     if (existingUser) {
+      if (!existingUser.emailVerified) {
+        const verificationToken = await generateEmailVerificationToken(email);
+        // Send token by email 1/2
+
+        return { success: "Email Confirmation resent" };
+      }
+
       return { error: "Email already in use" };
     }
 
     // Logic for when the user is not registered
-    // await db.insert(users).values({
-    //   email,
-    //   name,
-    // });
+    await db.insert(users).values({
+      email,
+      name,
+    });
+
+    const verificationToken = await generateEmailVerificationToken(email);
+    // Send token by email 2/2
 
     return { success: "Confirmation Email Sent!" };
   },
