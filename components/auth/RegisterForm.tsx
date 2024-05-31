@@ -21,6 +21,8 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import * as z from "zod";
+import { FormSuccess } from "@/components/auth/FormSuccess";
+import { FormError } from "@/components/auth/FormError";
 
 export const RegisterForm = () => {
   const form = useForm<z.infer<typeof RegisterSchema>>({
@@ -33,10 +35,12 @@ export const RegisterForm = () => {
   });
 
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const { execute, status } = useAction(emailRegister, {
     onSuccess(data) {
-      console.log(data);
+      if (data.error) setError(data.error);
+      if (data.success) setSuccess(data.success);
     },
   });
 
@@ -111,6 +115,8 @@ export const RegisterForm = () => {
                   </FormItem>
                 )}
               />
+              <FormSuccess message={success} />
+              <FormError message={error} />
               <Button size={"sm"} variant={"link"} asChild>
                 <Link href={"/auth/reset"}>Forgot your password</Link>
               </Button>
