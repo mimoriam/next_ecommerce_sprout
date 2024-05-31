@@ -6,10 +6,10 @@ export default async function NavBar() {
   const session = await auth();
 
   return (
-    <header className="bg-slate-500 py-4">
+    <header className="py-8">
       <nav>
         <ul className="flex justify-between">
-          <li>Logo</li>
+          <Link href={"/"}>Logo</Link>
           <li>
             {!session ? (
               <button>
