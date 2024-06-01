@@ -4,7 +4,7 @@ import authConfig from "@/auth.config";
 
 const { auth } = NextAuth(authConfig);
 
-export const authRoutes = ["/auth/login"];
+export const authRoutes = ["/auth/login", "/auth/register"];
 export const publicRoutes = ["/"];
 export const apiAuthPrefix = "/api/auth";
 
@@ -38,5 +38,5 @@ export default auth((req) => {
 });
 
 export const config = {
-  matcher: ["/auth/login"], // Add authRoutes here
+  matcher: ["/auth/login", "/auth/register"], // Add authRoutes here
 };
