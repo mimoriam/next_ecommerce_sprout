@@ -23,3 +23,5 @@ npm i bcryptjs
 npm i -D @types/bcryptjs
 npm i @paralleldrive/cuid2
 npm i resend
+
+npx shadcn-ui@latest add dropdown-menu
