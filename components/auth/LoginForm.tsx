@@ -21,6 +21,9 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { emailSignIn } from "@/server/actions/EmailSignInAction";
 import { useAction } from "next-safe-action/hooks";
+import { useRouter } from "next/navigation";
+import { FormSuccess } from "@/components/auth/FormSuccess";
+import { FormError } from "@/components/auth/FormError";
 
 export const LoginForm = () => {
   const form = useForm({
@@ -31,12 +34,17 @@ export const LoginForm = () => {
     },
   });
 
+  const router = useRouter();
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   // Hook from NextSafeAction
   const { execute, status } = useAction(emailSignIn, {
     onSuccess(data) {
-      console.log(data);
+      if (data?.error) setError(data.error);
+      if (data?.success) {
+        setSuccess(data.success);
+      }
     },
   });
 
@@ -93,6 +101,8 @@ export const LoginForm = () => {
                   </FormItem>
                 )}
               />
+              <FormSuccess message={success} />
+              <FormError message={error} />
               <Button size={"sm"} variant={"link"} asChild>
                 <Link href={"/auth/reset"}>Forgot your password</Link>
               </Button>
