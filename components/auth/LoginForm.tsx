@@ -26,7 +26,7 @@ import { FormSuccess } from "@/components/auth/FormSuccess";
 import { FormError } from "@/components/auth/FormError";
 
 export const LoginForm = () => {
-  const form = useForm({
+  const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
       email: "",
