@@ -49,6 +49,7 @@ export default function SettingsCard(session: SettingsForm) {
       name: session.session.user?.name || undefined,
       email: session.session.user?.email || undefined,
       image: session.session.user!.image || undefined,
+      isTwoFactorEnabled: session.session.user?.isTwoFactorEnabled || undefined,
     },
   });
 
