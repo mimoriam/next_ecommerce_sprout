@@ -28,3 +28,5 @@ npx shadcn-ui@latest add dropdown-menu
 npm i next-themes
 npx shadcn-ui@latest add switch
 npx shadcn-ui@latest add input-otp
+
+npm i uploadthing @uploadthing/react

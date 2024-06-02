@@ -10,6 +10,8 @@ declare global {
       NEXTAUTH_URL_INTERNAL: string;
       AUTH_SECRET: string;
       NEXT_PUBLIC_RESEND_API_KEY: string;
+      NEXT_PUBLIC_UPLOADTHING_SECRET: string;
+      NEXT_PUBLIC_UPLOADTHING_APP_ID: string;
     }
   }
 }
