@@ -12,7 +12,7 @@ import {
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import Image from "next/image";
 import { LogOut, Moon, Settings, Sun, TruckIcon } from "lucide-react";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { Switch } from "@/components/ui/switch";
 
@@ -30,6 +30,10 @@ export const UserButton = ({ user }: Session) => {
         return setChecked(false);
     }
   }
+
+  useEffect(() => {
+    setSwitchState();
+  }, [setSwitchState]);
 
   if (user)
     return (
