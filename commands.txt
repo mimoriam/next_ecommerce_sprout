@@ -30,3 +30,4 @@ npx shadcn-ui@latest add switch
 npx shadcn-ui@latest add input-otp
 
 npm i uploadthing @uploadthing/react
+npm i framer-motion
