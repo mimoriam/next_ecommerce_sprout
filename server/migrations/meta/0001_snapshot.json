@@ -1,7 +1,5 @@
 {
-  "id": "a48dc568-c0e1-411b-b293-77b3b95d54dd",
-  "prevId": "498341af-d880-430c-b8b9-4a42ce7b8e73",
-  "version": "6",
+  "version": "7",
   "dialect": "postgresql",
   "tables": {
     "public.account": {
@@ -80,15 +78,15 @@
         "account_userId_user_id_fk": {
           "name": "account_userId_user_id_fk",
           "tableFrom": "account",
-          "tableTo": "user",
           "columnsFrom": [
             "userId"
           ],
+          "tableTo": "user",
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "onUpdate": "no action",
+          "onDelete": "cascade"
         }
       },
       "compositePrimaryKeys": {
@@ -170,8 +168,10 @@
   },
   "schemas": {},
   "_meta": {
-    "columns": {},
     "schemas": {},
-    "tables": {}
-  }
+    "tables": {},
+    "columns": {}
+  },
+  "id": "a48dc568-c0e1-411b-b293-77b3b95d54dd",
+  "prevId": "498341af-d880-430c-b8b9-4a42ce7b8e73"
 }

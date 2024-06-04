@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/card";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import {
   Form,
   FormControl,
@@ -19,54 +18,53 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
-import { AddProductSchema } from "@/types/AddProductSchema";
-import { FormError } from "@/components/auth/FormError";
-import { FormSuccess } from "@/components/auth/FormSuccess";
+import TiptapEditor from "@/components/dashboard/add-product/Tiptap";
+import { ProductSchema, zProductSchema } from "@/types/ProductSchema";
+import { DollarSign } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useAction } from "next-safe-action/hooks";
+import { createProduct } from "@/server/actions/CreateProductAction";
 
 export default function CreateEditProduct() {
-  const [error, setError] = useState<string | undefined>();
-  const [success, setSuccess] = useState<string | undefined>();
-
-  const form = useForm<z.infer<typeof AddProductSchema>>({
-    resolver: zodResolver(AddProductSchema),
+  const form = useForm<zProductSchema>({
+    resolver: zodResolver(ProductSchema),
     defaultValues: {
       title: "",
       description: "",
-      price: undefined,
+      price: 0,
     },
   });
 
-  const onSubmit = (values: z.infer<typeof AddProductSchema>) => {
-    // execute(values)
-  };
+  const { execute, status } = useAction(createProduct, {
+    onSuccess: (data) => {
+      if (data?.success) {
+      }
+    },
+    onError: (error) => console.error(error),
+  });
+
+  async function onSubmit(values: zProductSchema) {
+    execute(values);
+  }
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Your Settings</CardTitle>
-        <CardDescription>Update your account settings</CardDescription>
+        <CardTitle>Card Title</CardTitle>
+        <CardDescription>Card Description</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="text-md space-y-4"
-          >
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               control={form.control}
               name="title"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="py-2">
                   <FormLabel>Product Title</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="Saekdong Stripe"
-                      //   disabled={status === "executing"}
-                      {...field}
-                    />
+                    <Input placeholder="Saekdong Stripe" {...field} />
                   </FormControl>
-
                   <FormMessage />
                 </FormItem>
               )}
@@ -77,7 +75,9 @@ export default function CreateEditProduct() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Description</FormLabel>
-                  <FormControl></FormControl>
+                  <FormControl>
+                    <TiptapEditor val={field.value} />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
@@ -89,23 +89,25 @@ export default function CreateEditProduct() {
                 <FormItem>
                   <FormLabel>Product Price</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="John Doe"
-                      type="number"
-                      //   disabled={status === "executing"}
-                      {...field}
-                    />
+                    <div className="flex items-center gap-2">
+                      <DollarSign
+                        size={36}
+                        className="rounded-md bg-muted p-2"
+                      />
+                      <Input
+                        {...field}
+                        type="number"
+                        placeholder="Your price in USD"
+                        step="0.1"
+                        min={0}
+                      />
+                    </div>
                   </FormControl>
-
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <FormError message={error} />
-            <FormSuccess message={success} />
-            {/* <Button type="submit" disabled={status === "executing"}>
-              Update your settings
-            </Button> */}
+            <Button type="submit">Submit</Button>
           </form>
         </Form>
       </CardContent>

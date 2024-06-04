@@ -31,3 +31,6 @@ npx shadcn-ui@latest add input-otp
 
 npm i uploadthing @uploadthing/react
 npm i framer-motion
+
+npm i @tiptap/react @tiptap/pm @tiptap/starter-kit @tiptap/extension-placeholder
+npx shadcn-ui@latest add toggle
