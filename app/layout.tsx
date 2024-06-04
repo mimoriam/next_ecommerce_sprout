@@ -4,6 +4,7 @@ import "./globals.css";
 import React from "react";
 import NavBar from "@/components/navigation/NavBar";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import Toast from "@/components/ui/Toast";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,6 +23,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <NavBar />
+          <Toast />
           {children}
         </ThemeProvider>
       </body>

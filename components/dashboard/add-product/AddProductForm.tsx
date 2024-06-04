@@ -24,6 +24,8 @@ import { DollarSign } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAction } from "next-safe-action/hooks";
 import { createProduct } from "@/server/actions/CreateProductAction";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function CreateEditProduct() {
   const form = useForm<zProductSchema>({
@@ -33,14 +35,24 @@ export default function CreateEditProduct() {
       description: "",
       price: 0,
     },
+    mode: "onChange",
   });
+
+  const router = useRouter();
 
   const { execute, status } = useAction(createProduct, {
     onSuccess: (data) => {
+      if (data?.error) {
+        toast.error(data.error);
+      }
       if (data?.success) {
+        router.push("/dashboard/products");
+        toast.success(data.success);
       }
     },
-    onError: (error) => console.error(error),
+    onExecute: (data) => {
+      toast.loading("Creating Product... ");
+    },
   });
 
   async function onSubmit(values: zProductSchema) {
