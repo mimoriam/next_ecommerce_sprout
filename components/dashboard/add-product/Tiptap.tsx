@@ -4,6 +4,7 @@ import Placeholder from "@tiptap/extension-placeholder";
 import { useFormContext } from "react-hook-form";
 import { Toggle } from "@/components/ui/toggle";
 import { Bold, Italic, List, ListOrdered, Strikethrough } from "lucide-react";
+import { useEffect } from "react";
 
 type TipTapProps = {
   val: string;
@@ -47,6 +48,10 @@ export default function TiptapEditor({ val }: TipTapProps) {
       });
     },
   });
+
+  useEffect(() => {
+    if (editor?.isEmpty) editor.commands.setContent(val);
+  }, [val]);
 
   return (
     <div className="flex flex-col gap-2">
