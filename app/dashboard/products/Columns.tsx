@@ -1,7 +1,7 @@
 "use client";
 
-import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
+import { ColumnDef, Row } from "@tanstack/react-table";
+import { MoreHorizontal, PlusCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -13,27 +13,63 @@ import Image from "next/image";
 import { toast } from "sonner";
 import Link from "next/link";
 import { deleteProduct } from "@/server/actions/DeleteProductAction";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { VariantsWithImagesTags } from "@/lib/infer-type";
+import { useAction } from "next-safe-action/hooks";
+import ProductVariant from "@/app/dashboard/products/ProductVariant";
 
 type ProductColumn = {
   title: string;
   price: number;
   image: string;
-  variants: any;
+  variants: VariantsWithImagesTags[];
   id: number;
 };
 
-async function deleteProductWrapper(id: number) {
-  const { data } = await deleteProduct({ id });
-  if (!data) {
-    return new Error("No data found");
-  }
-  if (data.success) {
-    toast.success(data.success);
-  }
-  if (data.error) {
-    toast.error(data.error);
-  }
-}
+const ActionCell = ({ row }: { row: Row<ProductColumn> }) => {
+  const { status, execute } = useAction(deleteProduct, {
+    onSuccess: (data) => {
+      if (data?.error) {
+        toast.error(data.error);
+      }
+      if (data?.success) {
+        toast.success(data.success);
+      }
+    },
+    onExecute: () => {
+      toast.loading("Deleting Product");
+    },
+  });
+  const product = row.original;
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant={"ghost"} className="size-8 p-0">
+          <MoreHorizontal className="size-4" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuItem className="cursor-pointer focus:bg-primary/50 dark:focus:bg-primary">
+          <Link href={`/dashboard/add-product?id=${product.id}`}>
+            Edit Product
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => execute({ id: product.id })}
+          className="cursor-pointer focus:bg-destructive/50 dark:focus:bg-destructive"
+        >
+          Delete Product
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
 
 export const columns: ColumnDef<ProductColumn>[] = [
   {
@@ -47,6 +83,51 @@ export const columns: ColumnDef<ProductColumn>[] = [
   {
     accessorKey: "variants",
     header: "Variants",
+    cell: ({ row }) => {
+      const variants = row.getValue("variants") as VariantsWithImagesTags[];
+      return (
+        <div>
+          {variants.map((variant) => (
+            <div key={variant.id}>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <ProductVariant
+                      productID={variant.productID}
+                      variant={variant}
+                      editMode={true}
+                    >
+                      <div
+                        className="size-5 rounded-full"
+                        key={variant.id}
+                        style={{ background: variant.color }}
+                      />
+                    </ProductVariant>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>{variant.productType}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
+          ))}
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <span>
+                  <ProductVariant editMode={false}>
+                    <PlusCircle className="size-5" />
+                  </ProductVariant>
+                </span>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Create a new product variant</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
+      );
+    },
   },
   {
     accessorKey: "price",
@@ -82,30 +163,6 @@ export const columns: ColumnDef<ProductColumn>[] = [
   {
     id: "actions",
     header: "Actions",
-    cell: ({ row }) => {
-      const product = row.original;
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant={"ghost"} className="size-8 p-0">
-              <MoreHorizontal className="size-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuItem className="cursor-pointer focus:bg-primary/50 dark:focus:bg-primary">
-              <Link href={`/dashboard/add-product?id=${product.id}`}>
-                Edit Product
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => deleteProductWrapper(product.id)}
-              className="cursor-pointer focus:bg-destructive/50 dark:focus:bg-destructive"
-            >
-              Delete Product
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
+    cell: ActionCell,
   },
 ];

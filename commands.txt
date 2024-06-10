@@ -38,3 +38,5 @@ npm i sonner
 
 npx shadcn-ui@latest add table
 npm i @tanstack/react-table
+npx shadcn-ui@latest add tooltip
+npx shadcn-ui@latest add dialog
